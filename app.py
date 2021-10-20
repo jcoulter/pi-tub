@@ -18,8 +18,9 @@ def hello_world():
     # TODO: make the devices properties
     temp_store1 = open(
         "/sys/bus/w1/devices/28-012063bee088/w1_slave")  # change this number to the Device ID of your sensor
+    raw_water = temp_store1.read()
     temp_store1.close()
-    water_temperature = float(temp_store1.read().split("\n")[1].split(" ")[9][2:])
+    water_temperature = float(raw_water.split("\n")[1].split(" ")[9][2:])
     water_temperature = water_temperature / 1000
     # Fahrenheit = (Celsius * 9 / 5) + 32
     print("The water temperature is {}".format(water_temperature))
@@ -27,8 +28,9 @@ def hello_world():
     # TODO: make the devices properties
     temp_store2 = open(
         "/sys/bus/w1/devices/28-012063c43c9d/w1_slave")  # change this number to the Device ID of your sensor
+    raw_air = temp_store2.read()
     temp_store2.close()
-    air_temperature = float(temp_store2.read().split("\n")[1].split(" ")[9][2:])
+    air_temperature = float(raw_air.split("\n")[1].split(" ")[9][2:])
     air_temperature = air_temperature / 1000
     # Fahrenheit = (Celsius * 9 / 5) + 32
     print("The air temperature is {}".format(air_temperature))
