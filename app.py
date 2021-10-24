@@ -26,11 +26,11 @@ def hello_world():
             print("I am on!")
         #     GPIO.output(18, GPIO.HIGH)
         else:
-            print("I am on!")
+            print("I am off!")
         #     GPIO.output(18, GPIO.LOW)
 
         print("Circulation Pump is {}".format(circulation_pump))
     if request.method == 'GET':
         print("I am getting!!")
 
-    return render_template("status.html")
+    return render_template("status.html", water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump)
