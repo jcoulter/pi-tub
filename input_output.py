@@ -1,25 +1,16 @@
 #!/usr/bin/env python3
-
+from temperature import Temperature
 #             print("self.heater = {}".format(self.heater))
+
 
 class InOut:
     def __init__(self):
-        self.water_temp_id = '28-012063bee088'
-        self.air_temp_id = '28-012063c43c9d'
+        self.temp = Temperature()
         self.circulation_pump = False
         self.jet_pump_one = False
         self.jet_pump_two = False
         self.blower = False
         self.heater = False
-
-    @staticmethod
-    def temperature(sensor_id):
-        temp_store = open("/sys/bus/w1/devices/{}/w1_slave").format(sensor_id)
-        raw_temp = temp_store.read()
-        temp_store.close()
-        temp = float(raw_temp.split("\n")[1].split(" ")[9][2:])
-        c_temp = temp / 1000
-        f_temp = (c_temp * 9 / 5) + 32
 
     @staticmethod
     def air_temp():

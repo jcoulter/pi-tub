@@ -20,32 +20,30 @@ def setupGPIO():
     # GPIO.setup(31, GPIO.IN, GPIO.PUD_UP)
     # GPIO.setup(32, GPIO.IN, GPIO.PUD_UP)
 
-    # GPIO.output(11, GPIO.HIGH)
-    # GPIO.setup(13, GPIO.OUT)
-    # GPIO.output(13, GPIO.HIGH)
-    # GPIO.setup(15, GPIO.OUT)
-    # GPIO.output(15, GPIO.HIGH)
-
-    # GPIO.setmode(GPIO.BCM)
-    # GPIO.setwarnings(False)
-    #
-    # GPIO.setup(18, GPIO.OUT)
+    # TODO: this should probably be in an external .py file.
+    GPIO.setup(32, GPIO.IN, GPIO.PUD_DOWN)  # flow sensor
+    GPIO.setup(33, GPIO.IN, GPIO.PUD_DOWN)  # temperature sensors
+    GPIO.setup(35, GPIO.IN, GPIO.PUD_DOWN)  # circulation_punp_button
+    GPIO.setup(36, GPIO.IN, GPIO.PUD_DOWN)  # jet_pump_one_button
+    GPIO.setup(37, GPIO.IN, GPIO.PUD_DOWN)  # jet_pump_two_button
+    GPIO.setup(38, GPIO.IN, GPIO.PUD_DOWN)  # blower_button
+    GPIO.setup(40, GPIO.IN, GPIO.PUD_DOWN)  # heater_button
 
 
-class InOut:
+class PhysicalControl:
     def __init__(self):
         self.temp = Temperature()
         setupGPIO()
 
     def air_temp(self):
-        self.temp.air_temp()
+        self.temperature(self.air_temp_id)
 
     def water_temp(self):
-        self.temp.water_temp()
+        self.temperature(self.water_temp_id)
 
     @staticmethod
     def flowing():
-        return True
+        GPIO.input(32) == GPIO.HIGH
 
     @staticmethod
     def max_temp():
@@ -53,9 +51,6 @@ class InOut:
 
     def can_turn_on_heat(self):
         return self.flowing() and self.water_temp <= self.max_temp
-
-    # All of these should check if they are already in the desired state or not.
-    # They should also check for any preconditions for firing.
 
     @staticmethod
     def turn_on_circulation_pump():
