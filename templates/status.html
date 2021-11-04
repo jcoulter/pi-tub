@@ -90,7 +90,39 @@ input:checked + .slider:before {
     {% endif %}
         <span class="slider round"></span>
     </label>
-    <label for="jet_pump_one"> Jet Pump One</label><br/>
+    <label for="jet_pump_one"> Jet Pump One</label><br/>    
+    
+    <label class="switch">
+    {% if jet_pump_two == None %}
+        <input type="checkbox" name="jet_pump_two" id="jet_pump_two" />
+    {% else %}
+        <input type="checkbox" name="jet_pump_two" id="jet_pump_two" checked="true"/>
+    {% endif %}
+        <span class="slider round"></span>
+    </label>
+    <label for="jet_pump_two"> Jet Pump Two</label><br/> 
+    
+    <label class="switch">
+    {% if blower == None %}
+        <input type="checkbox" name="blower" id="blower" />
+    {% else %}
+        <input type="checkbox" name="blower" id="blower" checked="true"/>
+    {% endif %}
+        <span class="slider round"></span>
+    </label>
+    <label for="blower">Blower</label><br/>
+        
+    <label class="switch">
+    {% if heater == None %}
+        <input type="checkbox" name="heater" id="heater" />
+    {% else %}
+        <input type="checkbox" name="heater" id="heater" checked="true"/>
+    {% endif %}
+        <span class="slider round"></span>
+    </label>
+    <label for="heater">Heater</label><br/>
+
+    <br/>
     <input type="submit" value="update">
 </form>
 

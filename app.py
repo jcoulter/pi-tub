@@ -16,6 +16,10 @@ def hello_world():
 
     circulation_pump = request.form.get('circulation_pump')
     jet_pump_one = request.form.get('jet_pump_one')
+    jet_pump_two = request.form.get('jet_pump_two')
+    blower = request.form.get('blower')
+    heater = request.form.get('heater')
+
     if request.method == 'POST':
         print("I am posting!")
         # print initial pin status before evaluating and changing
@@ -29,7 +33,10 @@ def hello_world():
 
         print("Circulation Pump is {}".format(circulation_pump))
         print("Jet Pump One is {}".format(jet_pump_one))
+        print("Jet Pump Two is {}".format(jet_pump_two))
+        print("Blower is {}".format(blower))
+        print("Heater is {}".format(heater))
     if request.method == 'GET':
         print("I am getting!!")
 
-    return render_template("status.html", water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump, jet_pump_one=jet_pump_one)
+    return render_template("status.html", water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump, jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)
