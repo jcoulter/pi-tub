@@ -5,11 +5,11 @@ from flask import Flask, render_template
 from flask import request
 
 app = Flask(__name__)
+in_out = InOut()
 
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    in_out = InOut()
     water_temperature = in_out.water_temp()
     air_temperature = in_out.air_temp()
     flowing = in_out.flowing()
@@ -54,5 +54,5 @@ def hello_world():
         print("I am getting!!")
 
     return render_template("status.html", flowing=flowing, water_temperature=water_temperature,
-                           air_temperature=air_temperature, circulation_pump=circulation_pump,
+                           air_temperature=air_temperature, circulation_pump=in_out.circulation_pump,
                            jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)

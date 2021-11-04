@@ -74,10 +74,10 @@ input:checked + .slider:before {
  <p>Air Temperature: {{air_temperature}}</p>
 <form method="post" name="update">
     <label class="switch">
-    {% if circulation_pump == None %}
-        <input type="checkbox" name="circulation_pump" id="circulation_pump" />
-    {% else %}
+    {% if circulation_pump == True %}
         <input type="checkbox" name="circulation_pump" id="circulation_pump" checked="true"/>
+    {% else %}
+        <input type="checkbox" name="circulation_pump" id="circulation_pump" />
     {% endif %}
         <span class="slider round"></span>
     </label>

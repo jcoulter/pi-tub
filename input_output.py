@@ -5,6 +5,11 @@ class InOut:
     def __init__(self):
         self.water_temp_id = '28-012063bee088'
         self.air_temp_id = '28-012063c43c9d'
+        self.circulation_pump = False
+        self.jet_pump_one = False
+        self.jet_pump_two = False
+        self.blower = False
+        self.heater = False
 
     @staticmethod
     def temperature(sensor_id):
@@ -34,13 +39,21 @@ class InOut:
     def can_turn_on_heat(self):
         return self.flowing() and self.water_temp() <= self.max_temp()
 
-    @staticmethod
-    def turn_on_circulation_pump():
-        print("turning on circulation_pump")
+    def turn_on_circulation_pump(self):
+        if self.circulation_pump:
+            print("circulation_pump was already on")
+        else:
+            print("self.circulation_pump = {}".format(self.circulation_pump))
+            print("turning on circulation_pump")
+            self.circulation_pump = True
 
-    @staticmethod
-    def turn_off_circulation_pump():
-        print("turning off circulation_pump")
+    def turn_off_circulation_pump(self):
+        if not self.circulation_pump:
+            print("circulation_pump was already off")
+        else:
+            print("self.circulation_pump = {}".format(self.circulation_pump))
+            print("turning off circulation_pump")
+            self.circulation_pump = False
 
     @staticmethod
     def turn_on_jet_pump_one():
