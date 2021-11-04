@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+#             print("self.heater = {}".format(self.heater))
 
 class InOut:
     def __init__(self):
@@ -30,7 +31,7 @@ class InOut:
 
     @staticmethod
     def flowing():
-        return False
+        return True
 
     @staticmethod
     def max_temp():
@@ -43,7 +44,6 @@ class InOut:
         if self.circulation_pump:
             print("circulation_pump was already on")
         else:
-            print("self.circulation_pump = {}".format(self.circulation_pump))
             print("turning on circulation_pump")
             self.circulation_pump = True
 
@@ -51,40 +51,63 @@ class InOut:
         if not self.circulation_pump:
             print("circulation_pump was already off")
         else:
-            print("self.circulation_pump = {}".format(self.circulation_pump))
             print("turning off circulation_pump")
             self.circulation_pump = False
 
-    @staticmethod
-    def turn_on_jet_pump_one():
-        print("turning on jet_pump_one")
+    def turn_on_jet_pump_one(self):
+        if self.jet_pump_one:
+            print("jet_pump_one was already on")
+        else:
+            print("turning on jet_pump_one")
+            self.jet_pump_one = True
 
-    @staticmethod
-    def turn_off_jet_pump_one():
-        print("turning off jet_pump_one")
+    def turn_off_jet_pump_one(self):
+        if not self.jet_pump_one:
+            print("jet_pump_one was already off")
+        else:
+            print("turning off jet_pump_one")
+            self.jet_pump_one = False
 
-    @staticmethod
-    def turn_on_jet_pump_two():
-        print("turning on jet_pump_two")
+    def turn_on_jet_pump_two(self):
+        if self.jet_pump_two:
+            print("jet_pump_two was already on")
+        else:
+            print("turning on jet_pump_two")
+            self.jet_pump_two = True
 
-    @staticmethod
-    def turn_off_jet_pump_two():
-        print("turning off jet_pump_two")
+    def turn_off_jet_pump_two(self):
+        if not self.jet_pump_two:
+            print("jet_pump_two was already off")
+        else:
+            print("turning off jet_pump_two")
+            self.jet_pump_two = False
 
-    @staticmethod
-    def turn_on_blower():
-        print("turning on blower")
+    def turn_on_blower(self):
+        if self.blower:
+            print("blower was already on")
+        else:
+            print("turning on blower")
+            self.blower = True
 
-    @staticmethod
-    def turn_off_blower():
-        print("turning off blower")
+    def turn_off_blower(self):
+        if not self.blower:
+            print("blower was already off")
+        else:
+            print("turning off blower")
+            self.blower = False
 
     def turn_on_heater(self):
-        if self.can_turn_on_heat():
+        if self.heater:
+            print("heater was already on")
+        elif self.can_turn_on_heat():
             print("turning on heater")
+            self.heater = True
         else:
-            print("error, cannot turn on heat!")
+            print("Error: cannot turn on heater!")
 
-    @staticmethod
-    def turn_off_heater():
-        print("turning off heater")
+    def turn_off_heater(self):
+        if not self.heater:
+            print("heater was already off")
+        else:
+            print("turning off heater")
+            self.heater = False

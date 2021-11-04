@@ -64,61 +64,62 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+
     </style>
 </head>
 <body>
 
- Hot Tub Status
- <p>Water Flowing: {{flowing}}</p>
- <p>Water Temperature: {{water_temperature}}</p>
- <p>Air Temperature: {{air_temperature}}</p>
+Hot Tub Status
+<p>Water Flowing: {{flowing}}</p>
+<p>Water Temperature: {{water_temperature}}</p>
+<p>Air Temperature: {{air_temperature}}</p>
 <form method="post" name="update">
     <label class="switch">
-    {% if circulation_pump == True %}
+        {% if circulation_pump == True %}
         <input type="checkbox" name="circulation_pump" id="circulation_pump" checked="true"/>
-    {% else %}
-        <input type="checkbox" name="circulation_pump" id="circulation_pump" />
-    {% endif %}
+        {% else %}
+        <input type="checkbox" name="circulation_pump" id="circulation_pump"/>
+        {% endif %}
         <span class="slider round"></span>
     </label>
     <label for="circulation_pump"> Circulation Pump</label><br/>
-    
+
     <label class="switch">
-    {% if jet_pump_one == None %}
-        <input type="checkbox" name="jet_pump_one" id="jet_pump_one" />
-    {% else %}
+        {% if jet_pump_one == True %}
         <input type="checkbox" name="jet_pump_one" id="jet_pump_one" checked="true"/>
-    {% endif %}
+        {% else %}
+        <input type="checkbox" name="jet_pump_one" id="jet_pump_one"/>
+        {% endif %}
         <span class="slider round"></span>
     </label>
-    <label for="jet_pump_one"> Jet Pump One</label><br/>    
-    
+    <label for="jet_pump_one"> Jet Pump One</label><br/>
+
     <label class="switch">
-    {% if jet_pump_two == None %}
-        <input type="checkbox" name="jet_pump_two" id="jet_pump_two" />
-    {% else %}
+        {% if jet_pump_two == True %}
         <input type="checkbox" name="jet_pump_two" id="jet_pump_two" checked="true"/>
-    {% endif %}
+        {% else %}
+        <input type="checkbox" name="jet_pump_two" id="jet_pump_two"/>
+        {% endif %}
         <span class="slider round"></span>
     </label>
-    <label for="jet_pump_two"> Jet Pump Two</label><br/> 
-    
+    <label for="jet_pump_two"> Jet Pump Two</label><br/>
+
     <label class="switch">
-    {% if blower == None %}
-        <input type="checkbox" name="blower" id="blower" />
-    {% else %}
+        {% if blower == True %}
         <input type="checkbox" name="blower" id="blower" checked="true"/>
-    {% endif %}
+        {% else %}
+        <input type="checkbox" name="blower" id="blower"/>
+        {% endif %}
         <span class="slider round"></span>
     </label>
     <label for="blower">Blower</label><br/>
-        
+
     <label class="switch">
-    {% if heater == None %}
-        <input type="checkbox" name="heater" id="heater" />
-    {% else %}
+        {% if heater == True %}
         <input type="checkbox" name="heater" id="heater" checked="true"/>
-    {% endif %}
+        {% else %}
+        <input type="checkbox" name="heater" id="heater"/>
+        {% endif %}
         <span class="slider round"></span>
     </label>
     <label for="heater">Heater</label><br/>

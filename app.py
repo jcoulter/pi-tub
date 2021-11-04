@@ -55,4 +55,5 @@ def hello_world():
 
     return render_template("status.html", flowing=flowing, water_temperature=water_temperature,
                            air_temperature=air_temperature, circulation_pump=in_out.circulation_pump,
-                           jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)
+                           jet_pump_one=in_out.jet_pump_one, jet_pump_two=in_out.jet_pump_two, blower=in_out.blower,
+                           heater=in_out.heater)
