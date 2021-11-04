@@ -12,6 +12,7 @@ def hello_world():
     in_out = InOut()
     water_temperature = in_out.water_temp()
     air_temperature = in_out.air_temp()
+    flowing = in_out.flowing()
     print("The water temperature is {}".format(water_temperature))
 
     circulation_pump = request.form.get('circulation_pump')
@@ -24,19 +25,32 @@ def hello_world():
         print("I am posting!")
         # print initial pin status before evaluating and changing
         # circulation_pump = request.form.get('circulation_pump')
-        if jet_pump_one == 'on':
-            print("jet_pump_one is on!")
-        #     GPIO.output(18, GPIO.HIGH)
+        if circulation_pump == 'on':
+            in_out.turn_on_circulation_pump()
         else:
-            print("jet_pump_one is off!")
-        #     GPIO.output(18, GPIO.LOW)
+            in_out.turn_off_circulation_pump()
 
-        print("Circulation Pump is {}".format(circulation_pump))
-        print("Jet Pump One is {}".format(jet_pump_one))
-        print("Jet Pump Two is {}".format(jet_pump_two))
-        print("Blower is {}".format(blower))
-        print("Heater is {}".format(heater))
+        if jet_pump_one == 'on':
+            in_out.turn_on_jet_pump_one()
+        else:
+            in_out.turn_off_jet_pump_one()
+
+        if jet_pump_two == 'on':
+            in_out.turn_on_jet_pump_two()
+        else:
+            in_out.turn_off_jet_pump_two()
+
+        if blower == 'on':
+            in_out.turn_on_blower()
+        else:
+            in_out.turn_off_blower()
+
+        if heater == 'on':
+            in_out.turn_on_heater()
+        else:
+            in_out.turn_off_heater()
+
     if request.method == 'GET':
         print("I am getting!!")
 
-    return render_template("status.html", water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump, jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)
+    return render_template("status.html", flowing=flowing, water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump, jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)

@@ -22,3 +22,47 @@ class InOut:
     @staticmethod
     def water_temp():
         return 86
+
+    @staticmethod
+    def flowing():
+        return True
+
+    @staticmethod
+    def turn_on_circulation_pump():
+        print("turning on circulation_pump")
+
+    @staticmethod
+    def turn_off_circulation_pump():
+        print("turning off circulation_pump")
+
+    @staticmethod
+    def turn_on_jet_pump_one():
+        print("turning on jet_pump_one")
+
+    @staticmethod
+    def turn_off_jet_pump_one():
+        print("turning off jet_pump_one")
+
+    @staticmethod
+    def turn_on_jet_pump_two():
+        print("turning on jet_pump_two")
+
+    @staticmethod
+    def turn_off_jet_pump_two():
+        print("turning off jet_pump_two")
+
+    @staticmethod
+    def turn_on_blower():
+        print("turning on blower")
+
+    @staticmethod
+    def turn_off_blower():
+        print("turning off blower")
+
+    @staticmethod
+    def turn_on_heater():
+        print("turning on heater")
+
+    @staticmethod
+    def turn_off_heater():
+        print("turning off heater")
