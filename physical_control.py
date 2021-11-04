@@ -3,7 +3,14 @@ import RPi.GPIO as GPIO
 from temperature import Temperature
 
 
-def setupGPIO():
+def button_callback(channel):
+    print('This is a edge event callback function!')
+    print('Edge detected on channel %s'%channel)
+    print('This is run in a different thread to your main program')
+
+# TODO: Make this a script, run it from Ignatius' pi, and make the buttons trigger the relay pins.
+
+def setup_gpio():
     GPIO.setmode(GPIO.BOARD)  # the pin numbers refer to the board connector not the chip
     GPIO.setwarnings(False)
 
@@ -21,13 +28,20 @@ def setupGPIO():
     # GPIO.setup(32, GPIO.IN, GPIO.PUD_UP)
 
     # TODO: this should probably be in an external .py file.
-    GPIO.setup(32, GPIO.IN, GPIO.PUD_DOWN)  # flow sensor
-    GPIO.setup(33, GPIO.IN, GPIO.PUD_DOWN)  # temperature sensors
-    GPIO.setup(35, GPIO.IN, GPIO.PUD_DOWN)  # circulation_punp_button
-    GPIO.setup(36, GPIO.IN, GPIO.PUD_DOWN)  # jet_pump_one_button
-    GPIO.setup(37, GPIO.IN, GPIO.PUD_DOWN)  # jet_pump_two_button
-    GPIO.setup(38, GPIO.IN, GPIO.PUD_DOWN)  # blower_button
-    GPIO.setup(40, GPIO.IN, GPIO.PUD_DOWN)  # heater_button
+    GPIO.setup(32, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # flow sensor
+    GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # temperature sensors
+    GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # circulation_punp_button
+    GPIO.setup(36, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # jet_pump_one_button
+    GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # jet_pump_two_button
+    GPIO.setup(38, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # blower_button
+    GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # heater_button
+
+    # If too many callbacks fire, we may need to debounce
+    GPIO.add_event_detect(35, GPIO.RISING, callback=button_callback)
+    GPIO.add_event_detect(36, GPIO.RISING, callback=button_callback)
+    GPIO.add_event_detect(37, GPIO.RISING, callback=button_callback)
+    GPIO.add_event_detect(38, GPIO.RISING, callback=button_callback)
+    GPIO.add_event_detect(39, GPIO.RISING, callback=button_callback)
 
 
 class PhysicalControl:
@@ -41,7 +55,7 @@ class PhysicalControl:
             "heater": 11,
             "flow_sensor": 32
         }
-        setupGPIO()
+        setup_gpio()
 
     def on(self, key):
         status = GPIO.input(self.elements[key]) == GPIO.HIGH
@@ -114,3 +128,15 @@ class PhysicalControl:
     def turn_off_heater(self):
         if self.on("heater"):
             self.turn_off('heater')
+
+    # Sample polling GPIO for Button
+    # while GPIO.input(channel) == GPIO.LOW:
+    #     time.sleep(0.01)  # wait 10 ms to give CPU chance to do other things
+
+    try:
+        while 1 >= 0:
+
+
+    except KeyboardInterrupt:  # Stops program when "Control + C" is entered
+        GPIO.cleanup()  # Turns OFF all relay switches
+
