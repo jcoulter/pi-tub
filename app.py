@@ -53,4 +53,6 @@ def hello_world():
     if request.method == 'GET':
         print("I am getting!!")
 
-    return render_template("status.html", flowing=flowing, water_temperature=water_temperature, air_temperature=air_temperature, circulation_pump=circulation_pump, jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)
+    return render_template("status.html", flowing=flowing, water_temperature=water_temperature,
+                           air_temperature=air_temperature, circulation_pump=circulation_pump,
+                           jet_pump_one=jet_pump_one, jet_pump_two=jet_pump_two, blower=blower, heater=heater)

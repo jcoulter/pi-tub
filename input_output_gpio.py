@@ -35,6 +35,13 @@ class InOut:
     def flowing():
         return True
 
+    @staticmethod
+    def max_temp():
+        return 106
+
+    def can_turn_on_heat(self):
+        return self.flowing() and self.water_temp <= self.max_temp
+
     # All of these should check if they are already in the desired state or not.
     # They should also check for any preconditions for firing.
 

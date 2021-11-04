@@ -21,11 +21,18 @@ class InOut:
 
     @staticmethod
     def water_temp():
-        return 86
+        return 106
 
     @staticmethod
     def flowing():
-        return True
+        return False
+
+    @staticmethod
+    def max_temp():
+        return 106
+
+    def can_turn_on_heat(self):
+        return self.flowing() and self.water_temp() <= self.max_temp()
 
     @staticmethod
     def turn_on_circulation_pump():
@@ -59,9 +66,11 @@ class InOut:
     def turn_off_blower():
         print("turning off blower")
 
-    @staticmethod
-    def turn_on_heater():
-        print("turning on heater")
+    def turn_on_heater(self):
+        if self.can_turn_on_heat():
+            print("turning on heater")
+        else:
+            print("error, cannot turn on heat!")
 
     @staticmethod
     def turn_off_heater():
