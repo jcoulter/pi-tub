@@ -1,53 +1,58 @@
 #!/usr/bin/env python3
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
+from input_output import InOut
 from flask import Flask, render_template
 from flask import request
 
 app = Flask(__name__)
+in_out = InOut()
 
-
-# def setupGPIO():
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setwarnings(False)
-#
-# GPIO.setup(18, GPIO.OUT)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    # setupGPIO()
-    # TODO: make the devices properties
-    temp_store1 = open(
-        "/sys/bus/w1/devices/28-012063bee088/w1_slave")  # change this number to the Device ID of your sensor
-    raw_water = temp_store1.read()
-    temp_store1.close()
-    water_temperature = float(raw_water.split("\n")[1].split(" ")[9][2:])
-    water_temperature = water_temperature / 1000
-    # Fahrenheit = (Celsius * 9 / 5) + 32
+    water_temperature = in_out.water_temp()
+    air_temperature = in_out.air_temp()
+    flowing = in_out.flowing()
     print("The water temperature is {}".format(water_temperature))
 
-    # TODO: make the devices properties
-    temp_store2 = open(
-        "/sys/bus/w1/devices/28-012063c43c9d/w1_slave")  # change this number to the Device ID of your sensor
-    raw_air = temp_store2.read()
-    temp_store2.close()
-    air_temperature = float(raw_air.split("\n")[1].split(" ")[9][2:])
-    air_temperature = air_temperature / 1000
-    # Fahrenheit = (Celsius * 9 / 5) + 32
-    print("The air temperature is {}".format(air_temperature))
-
+    circulation_pump = request.form.get('circulation_pump')
+    jet_pump_one = request.form.get('jet_pump_one')
+    jet_pump_two = request.form.get('jet_pump_two')
+    blower = request.form.get('blower')
+    heater = request.form.get('heater')
     if request.method == 'POST':
         print("I am posting!")
         # print initial pin status before evaluating and changing
-        circulation_pump = request.form.get('circulation_pump')
-        if circulation_pump == 'On':
-            print("I am on!")
-        #     GPIO.output(18, GPIO.HIGH)
+        # circulation_pump = request.form.get('circulation_pump')
+        if circulation_pump == 'on':
+            in_out.turn_on_circulation_pump()
         else:
-            print("I am on!")
-        #     GPIO.output(18, GPIO.LOW)
+            in_out.turn_off_circulation_pump()
 
-        print("Circulation Pump is {}".format(circulation_pump))
+        if jet_pump_one == 'on':
+            in_out.turn_on_jet_pump_one()
+        else:
+            in_out.turn_off_jet_pump_one()
+
+        if jet_pump_two == 'on':
+            in_out.turn_on_jet_pump_two()
+        else:
+            in_out.turn_off_jet_pump_two()
+
+        if blower == 'on':
+            in_out.turn_on_blower()
+        else:
+            in_out.turn_off_blower()
+
+        if heater == 'on':
+            in_out.turn_on_heater()
+        else:
+            in_out.turn_off_heater()
+
     if request.method == 'GET':
         print("I am getting!!")
 
-    return render_template("status.html")
+    return render_template("status.html", flowing=flowing, water_temperature=water_temperature,
+                           air_temperature=air_temperature, circulation_pump=in_out.on('circulation_pump'),
+                           jet_pump_one=in_out.on('jet_pump_one'), jet_pump_two=in_out.on('jet_pump_two'), blower=in_out.on('blower'),
+                           heater=in_out.on('heater'))
