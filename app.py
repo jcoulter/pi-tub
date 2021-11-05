@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # import RPi.GPIO as GPIO
-from input_output import InOut
+from input_output_gpio import InOut
 from flask import Flask, render_template
 from flask import request
 

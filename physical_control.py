@@ -41,7 +41,7 @@ def setup_gpio():
     GPIO.add_event_detect(36, GPIO.RISING, callback=button_callback)
     GPIO.add_event_detect(37, GPIO.RISING, callback=button_callback)
     GPIO.add_event_detect(38, GPIO.RISING, callback=button_callback)
-    GPIO.add_event_detect(39, GPIO.RISING, callback=button_callback)
+    # GPIO.add_event_detect(39, GPIO.RISING, callback=button_callback)
 
 
 class PhysicalControl:
@@ -64,7 +64,7 @@ class PhysicalControl:
 
     def turn_on(self, key):
         print("turning on {}".format(key))
-        GPIO.input(self.elements[key], 1)
+        GPIO.output(self.elements[key], 1)
 
     def turn_off(self, key):
         print("turning off {}".format(key))
@@ -132,11 +132,3 @@ class PhysicalControl:
     # Sample polling GPIO for Button
     # while GPIO.input(channel) == GPIO.LOW:
     #     time.sleep(0.01)  # wait 10 ms to give CPU chance to do other things
-
-    try:
-        while 1 >= 0:
-
-
-    except KeyboardInterrupt:  # Stops program when "Control + C" is entered
-        GPIO.cleanup()  # Turns OFF all relay switches
-
