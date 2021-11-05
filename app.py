@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # import RPi.GPIO as GPIO
-from input_output import InOut
+from input_output_gpio import InOut
 from flask import Flask, render_template
 from flask import request
 
@@ -20,7 +20,6 @@ def hello_world():
     jet_pump_two = request.form.get('jet_pump_two')
     blower = request.form.get('blower')
     heater = request.form.get('heater')
-
     if request.method == 'POST':
         print("I am posting!")
         # print initial pin status before evaluating and changing

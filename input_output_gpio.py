@@ -20,28 +20,44 @@ def setupGPIO():
     # GPIO.setup(31, GPIO.IN, GPIO.PUD_UP)
     # GPIO.setup(32, GPIO.IN, GPIO.PUD_UP)
 
-    # GPIO.output(11, GPIO.HIGH)
-    # GPIO.setup(13, GPIO.OUT)
-    # GPIO.output(13, GPIO.HIGH)
-    # GPIO.setup(15, GPIO.OUT)
-    # GPIO.output(15, GPIO.HIGH)
+    # TODO: this should probably be in an external .py file.
+    GPIO.setup(32, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # flow sensor
+    GPIO.setup(33, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # temperature sensors
+    GPIO.setup(35, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # circulation_punp_button
+    GPIO.setup(36, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # jet_pump_one_button
+    GPIO.setup(37, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # jet_pump_two_button
+    GPIO.setup(38, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # blower_button
+    GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # heater_button
 
-    # GPIO.setmode(GPIO.BCM)
-    # GPIO.setwarnings(False)
-    #
-    # GPIO.setup(18, GPIO.OUT)
+    # # If too many callbacks fire, we may need to debounce
+    # GPIO.add_event_detect(35, GPIO.RISING, callback=button_callback)
+    # GPIO.add_event_detect(36, GPIO.RISING, callback=button_callback)
+    # GPIO.add_event_detect(37, GPIO.RISING, callback=button_callback)
+    # GPIO.add_event_detect(38, GPIO.RISING, callback=button_callback)
+    # GPIO.add_event_detect(39, GPIO.RISING, callback=button_callback)
+
 
 
 class InOut:
     def __init__(self):
         self.temp = Temperature()
+        self.elements = {
+            "circulation_pump": 5,
+            "jet_pump_one": 7,
+            "jet_pump_two": 8,
+            "blower": 10,
+            "heater": 11,
+            "flow_sensor": 32
+        }
         setupGPIO()
 
     def air_temp(self):
-        self.temp.air_temp()
+        return  75
+        # self.temp.air_temp()
 
     def water_temp(self):
-        self.temp.water_temp()
+        return 104
+        # self.temp.water_temp()
 
     @staticmethod
     def flowing():
@@ -51,49 +67,61 @@ class InOut:
     def max_temp():
         return 106
 
+    def on(self, key):
+        status = GPIO.input(self.elements[key]) == GPIO.HIGH
+        # print("{} was {}".format(key, status))
+        return status
+
+    def turn_on(self, key):
+        print("turning on {}".format(key))
+        GPIO.output(self.elements[key], 1)
+
+    def turn_off(self, key):
+        print("turning off {}".format(key))
+        GPIO.output(self.elements[key], 0)
+
     def can_turn_on_heat(self):
-        return self.flowing() and self.water_temp <= self.max_temp
+        return self.flowing() and self.water_temp() <= self.max_temp()
 
-    # All of these should check if they are already in the desired state or not.
-    # They should also check for any preconditions for firing.
+    def turn_on_circulation_pump(self):
+        if not self.on('circulation_pump'):
+            self.turn_on('circulation_pump')
 
-    @staticmethod
-    def turn_on_circulation_pump():
-        print("turning on circulation_pump")
+    def turn_off_circulation_pump(self):
+        if self.on("circulation_pump"):
+            self.turn_off('circulation_pump')
 
-    @staticmethod
-    def turn_off_circulation_pump():
-        print("turning off circulation_pump")
+    def turn_on_jet_pump_one(self):
+        if not self.on('jet_pump_one'):
+            self.turn_on('jet_pump_one')
 
-    @staticmethod
-    def turn_on_jet_pump_one():
-        print("turning on jet_pump_one")
+    def turn_off_jet_pump_one(self):
+        if self.on("jet_pump_one"):
+            self.turn_off('jet_pump_one')
 
-    @staticmethod
-    def turn_off_jet_pump_one():
-        print("turning off jet_pump_one")
+    def turn_on_jet_pump_two(self):
+        if not self.on('jet_pump_two'):
+            self.turn_on('jet_pump_two')
 
-    @staticmethod
-    def turn_on_jet_pump_two():
-        print("turning on jet_pump_two")
+    def turn_off_jet_pump_two(self):
+        if self.on("jet_pump_two"):
+            self.turn_off('jet_pump_two')
 
-    @staticmethod
-    def turn_off_jet_pump_two():
-        print("turning off jet_pump_two")
+    def turn_on_blower(self):
+        if not self.on('blower'):
+            self.turn_on('blower')
 
-    @staticmethod
-    def turn_on_blower():
-        print("turning on blower")
+    def turn_off_blower(self):
+        if self.on("blower"):
+            self.turn_off('blower')
 
-    @staticmethod
-    def turn_off_blower():
-        print("turning off blower")
+    def turn_on_heater(self):
+        if not self.on('heater'):
+            if self.can_turn_on_heat():
+                self.turn_on('heater')
+            else:
+                print("Error: cannot turn on heater!")
 
-    # Turn on circulation pump, check flow sensor
-    @staticmethod
-    def turn_on_heater():
-        print("turning on heater")
-
-    @staticmethod
-    def turn_off_heater():
-        print("turning off heater")
+    def turn_off_heater(self):
+        if self.on("heater"):
+            self.turn_off('heater')
